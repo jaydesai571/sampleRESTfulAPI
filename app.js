@@ -1,10 +1,13 @@
 const express = require('express');
-
+const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
 require('dotenv/config');
 
 //Middlewares
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json()); 
+
 const postRoute = require('./routes/posts');
 app.use('/posts', postRoute);
 
@@ -19,7 +22,13 @@ app.get('/post', (req,res) => {
 
 //Connect to DB
 mongoose.connect(process.env.DB_CONNECTION,
-    {useNewUrlParser: true},
+    {useUnifiedTopology: true, useNewUrlParser: true},
     () => {console.log("Database connected");
 });
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongoose.Promise = global.Promise;
 app.listen(3000);
