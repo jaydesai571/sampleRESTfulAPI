@@ -2,14 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-require('dotenv/config');
+const dotenv = require('dotenv');
 
 //Middlewares
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json()); 
-
+const authRoute = require('./routes/auth');
+app.use('/api/user', authRoute);
 const postRoute = require('./routes/posts');
 app.use('/posts', postRoute);
+dotenv.config();
 
 //ROUTES
 app.get('/', (req,res) => {
