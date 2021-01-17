@@ -18,9 +18,9 @@ app.get('/', (req,res) => {
     res.send('We are on home');
 });
 
-app.get('/post', (req,res) => {
-    res.send('We are on the post');
-});
+// app.get('/post', (req,res) => {
+//     res.send('We are on the post');
+// });
 
 //Connect to DB
 mongoose.connect(process.env.DB_CONNECTION,

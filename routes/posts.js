@@ -4,7 +4,9 @@ const { update } = require('../models/Post');
 const router = express.Router();
 const Post = require('../models/Post');
 
-router.get('/', async(req,res) => {
+const verify = require('./verifyToken');
+
+router.get('/', verify, async(req,res) => {
     try{
         const posts = await Post.find();
         res.json(posts);
