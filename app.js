@@ -9,7 +9,7 @@ const path =require('path');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json()); 
 const authRoute = require('./routes/auth');
-app.use('/api/user', authRoute);
+app.use('/', authRoute);
 const postRoute = require('./routes/posts');
 app.use('/posts', postRoute);
 dotenv.config();
@@ -21,6 +21,9 @@ app.use(express.static(path.join(__dirname,'views')));
 //ROUTES
 app.get('/', (req,res) => {
     res.render('index.html');
+});
+app.get('/login', (req,res) => {
+    res.render('login.html');
 });
 
 // app.get('/post', (req,res) => {
