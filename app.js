@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const path =require('path');
 
 //Middlewares
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,9 +14,13 @@ const postRoute = require('./routes/posts');
 app.use('/posts', postRoute);
 dotenv.config();
 
+app.set('views', path.join(__dirname,'views'));
+app.set('view engine', 'ejs')
+app.engine('html', require('ejs').renderFile);
+app.use(express.static(path.join(__dirname,'views')));
 //ROUTES
 app.get('/', (req,res) => {
-    res.send('We are on home');
+    res.render('index.html');
 });
 
 // app.get('/post', (req,res) => {
