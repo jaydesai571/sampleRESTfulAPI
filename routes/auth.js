@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { exists } = require('../models/User');
 const User = require('../models/User');
 const {registerValidation, loginValidation} = require('../validation');
+const { urlencoded } = require('body-parser');
 
 var urlencodedParser = bodyParser.urlencoded({extended:false});
 
@@ -48,8 +49,9 @@ router.post('/login', urlencodedParser, async(req,res) => {
     console.log(validPass);
     //create and sign a token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
-    res.send('Logged IN');
+    var name = encodeURIComponent(user.name);
+    res.header('auth-token', token).render('welcome.html', {name:name});
+
 });
 
 module.exports = router;
