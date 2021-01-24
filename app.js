@@ -25,6 +25,9 @@ app.get('/', (req,res) => {
 app.get('/login', (req,res) => {
     res.render('login.html');
 });
+app.get('/register', (req,res) => {
+    res.render('register.html');
+});
 
 // app.get('/post', (req,res) => {
 //     res.send('We are on the post');

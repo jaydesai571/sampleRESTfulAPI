@@ -11,19 +11,22 @@ const { urlencoded } = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended:false});
 
 router.post('/register', async(req,res) => {
-    const {error} = registerValidation(req.body);
+    const {error} = registerValidation(req.body.form);
     if(error) return res.status(400).send(error.details[0].message);
 
     //Checking for the Email already exisit or not.
-    const emailExist = await User.findOne({ email: req.body.email });
+    const emailExist = await User.findOne({ email: req.body.exampleInputEmail1 });
     if(emailExist) return res.status(400).send('Email already exisit');
+    // checking for th password and confirm pasword are same or not.
+    const passcheck = await compare({ password: req.body.exampleInputPassword1, confirm_password: req.body.exampleInputPassword2 });
+    if(passcheck) return res.status(400).send('Password doesnot match');
     // Hashing the pasword using the bcrypt
     const salt = await bcrypt.genSalt(10);
-    const hashedPasword = await bcrypt.hash(req.body.password, salt);
+    const hashedPasword = await bcrypt.hash(req.body.exampleInputPassword1, salt);
 
     const user = new User({
-        name: req.body.name,
-        email: req.body.email,
+        name: req.body.exampleInputname,
+        email: req.body.exampleInputEmail1,
         password: hashedPasword
     });
     try {
@@ -36,7 +39,6 @@ router.post('/register', async(req,res) => {
 
 router.post('/login', urlencodedParser, async(req,res) => {
     const {error} = loginValidation(req.body.form);
-    console.log(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
     //Checking for the Email already exisit or not.
