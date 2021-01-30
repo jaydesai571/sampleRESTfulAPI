@@ -22,8 +22,11 @@ router.post('/register', async(req,res) => {
     // if(passcheck) return res.status(400).send('Password doesnot match');
     // Hashing the pasword using the bcrypt
     const salt = await bcrypt.genSalt(10);
+    console.log(req.body.exampleInputPassword1);
+    console.log(req.body.exampleInputPassword2);
     const passcheck = await bcrypt.compare(req.body.exampleInputPassword1, req.body.exampleInputPassword2);
-    if(!passcheck) return res.status(400).send('password doesnt match');
+    console.log(passcheck);
+    if(passcheck) return res.status(400).send('password doesnot match');
     const hashedPasword = await bcrypt.hash(req.body.exampleInputPassword1, salt);
     
     const user = new User({
