@@ -48,17 +48,17 @@ router.post('/login', urlencodedParser, async(req,res) => {
 
     //Checking for the Email already exisit or not.
     const user = await User.findOne({ email: req.body.exampleInputEmail1 });
-    console.log(user);
+    // console.log(user);
     if(!user) return res.status(400).send('Email or password is invalid!!!');
     //Password checking with bcrypt
     const validPass = await bcrypt.compare(req.body.exampleInputPassword1, user.password);
     if (!validPass) return res.status(400).send('Email or password is invalid!!');
-    console.log(validPass);
+    // console.log(validPass);
     //create and sign a token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     var name = encodeURIComponent(user.name);
+    console.log(token);
     res.header('auth-token', token).render('welcome.html', {name:name});
-
 });
 
 module.exports = router;

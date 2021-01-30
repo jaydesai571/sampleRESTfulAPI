@@ -29,9 +29,9 @@ app.get('/register', (req,res) => {
     res.render('register.html');
 });
 
-// app.get('/post', (req,res) => {
-//     res.send('We are on the post');
-// });
+app.get('/post', (req,res) => {
+    res.send('We are on the post');
+});
 
 //Connect to DB
 mongoose.connect(process.env.DB_CONNECTION,
